@@ -1,38 +1,87 @@
-.App {
+/* src/App.css */
+/* Global Styles & Typography */
+:root {
+  --color-primary: #5c8330; /* Organic Green */
+  --color-secondary: #f0f0f0; /* Light Gray for backgrounds */
+  --color-text: #333333;
+  --color-light-text: #666666;
+  --font-serif: 'Playfair Display', serif; /* Elegant heading font */
+  --font-sans: 'Roboto', sans-serif; /* Clean body font */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #ffffff;
+  overflow-x: hidden; /* Prevents horizontal scroll from animations */
+}
+
+/* Reusable Layouts */
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
   text-align: center;
+  margin-bottom: 40px;
+  margin-top: 50px;
+  font-weight: 400;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page-container {
+    min-height: 70vh;
+    padding: 80px 5%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* --- Transitions and Animations (CSS) --- */
+
+/* Reusable Button Style */
+.primary-button {
+  background-color: var(--color-primary);
   color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out; /* Added Transition */
 }
 
-.App-link {
-  color: #61dafb;
+.primary-button:hover {
+  background-color: #446820;
+  transform: translateY(-2px); /* Subtle lift animation */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Header & Links */
+.header-bar {
+  border-bottom: 1px solid #eee; /* Subtle separator */
+}
+.nav-links a, 
+.user-actions a {
+  text-decoration: none;
+  color: var(--color-text);
+  position: relative;
+  transition: color 0.3s ease; /* Added Transition */
+}
+
+.nav-links a:hover {
+  color: var(--color-primary);
+}
+
+/* Product Card Hover Effect (Framer Motion handles the transform, but CSS adds consistency) */
+.product-card {
+  transition: box-shadow 0.3s ease-in-out; 
+}
+
+.product-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
 }
