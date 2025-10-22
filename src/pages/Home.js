@@ -50,6 +50,20 @@ const ProductCard = ({ product }) => (
 );
 
 const Home = () => {
+  // 💥 FIX: MOVE windowWidth state and effect HERE 💥
+    // 1. State to track the screen width
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    // 2. Effect to update width on screen resize
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup function
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     // 💥 NEW: State to track the active testimonial index 💥
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
@@ -78,23 +92,29 @@ const Home = () => {
   };
     
   const heroStyle = {
-    backgroundImage: 'url("/images/placeholder-hero.jpeg")', 
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '450px',
-    display: 'flex',
-    alignItems: 'center',
-    //paddingLeft: '5%',
-    color: 'white',
-    position: 'relative',
-    fontFamily: 'var(--font-serif)',
+        backgroundImage: 'url("/images/placeholder-hero.jpeg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: 'var(--hero-height, 450px)',
+        display: 'flex',
+        alignItems: 'center',
+        color: 'white',
+        position: 'relative',
+        fontFamily: 'var(--font-serif)',
+        // ✅ NOW windowWidth IS DEFINED HERE AND WILL WORK ✅
+        paddingLeft: windowWidth < 768 ? '15px' : 'var(--hero-padding, 5%)',
+        paddingRight: windowWidth < 768 ? '15px' : '5%',
+       
   };
 
   const productGridStyle = {
     display: 'grid',
-    gridTemplateColumns: '1.2fr repeat(4, 1fr)', 
+    //gridTemplateColumns: '1.2fr repeat(4, 1fr)', 
     gap: '20px',
     margin: '40px 0',
+    gridTemplateColumns: windowWidth > 768 
+        ? '1.2fr repeat(4, 1fr)' // Desktop/Tablet wide columns
+        : ' 1fr',
   };
  // Get the current testimonial object
   const testimonial = testimonials[currentTestimonial];
@@ -114,36 +134,50 @@ const Home = () => {
         </motion.div>
       </div>
 
-      <div className="content-wrapper">
+      <div className="content-wrapper-home">
         
-        {/* 2. CATEGORIES & CERTIFICATIONS (Scroll Animation) */}
-        <motion.div 
-            {...scrollAnimateProps}
-            style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '50px 0', borderBottom: '1px solid #eee' }}
-        >
-          
-          {/* Categories */}
-          <motion.div whileHover={{ scale: 1.05 }} style={{ textAlign: 'center' }}> 
-            <Link to="/shop/groceries"><img src="/images/category1.jfif" alt="Organic Groceries" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} /></Link>
-            <p style={{ marginTop: '10px' }}>Organic Groceries</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} style={{ textAlign: 'center' }}>
-            <Link to="/shop/personal-care"><img src="/images/category2.jfif" alt="Natural Personal Care" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} /></Link>
-            <p style={{ marginTop: '10px' }}>Natural Personal Care</p>
-          </motion.div>
+      {/* 2. CATEGORIES & CERTIFICATIONS (Scroll Animation) */}
+<motion.div 
+    {...scrollAnimateProps}
+    style={{ 
+        display: 'flex', 
+        // 🔥 FIX 1: Allow items to wrap to the next line
+        flexWrap: 'wrap', 
+        boxSizing: 'border-box',
+        // 🔥 FIX 2: Center the items horizontally, rather than spacing them out
+        justifyContent: 'center', 
+        width: '100%',
+        alignItems: 'center', 
+        padding: '50px 20px', // Added horizontal padding for small screens
+        borderBottom: '1px solid #eee',
+        gap: '30px', // Use gap to control spacing instead of space-around
+    }}
+>
+    {/* Categories (now acts as a flex item, centered on mobile) */}
+    <motion.div whileHover={{ scale: 1.05 }} style={{ textAlign: 'center' }}> 
+        <Link to="/shop/groceries"><img src="/images/category1.jfif" alt="Organic Groceries" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} /></Link>
+        <p style={{ marginTop: '10px' }}>Organic Groceries</p>
+    </motion.div>
+    <motion.div whileHover={{ scale: 1.05 }} style={{ textAlign: 'center' }}>
+        <Link to="/shop/personal-care"><img src="/images/category2.jfif" alt="Natural Personal Care" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} /></Link>
+        <p style={{ marginTop: '10px' }}>Natural Personal Care</p>
+    </motion.div>
 
-          {/* Certifications */}
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: 'var(--color-light-text)', fontWeight: 'normal' }}>Why Choose Transparency?</h3>
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '15px' }}>
-                <img src="/images/cert1.jfif" alt="Certified Logo" style={{ width: '60px' }} />
-                <img src="/images/cert2.jfif" alt="Fair Trade Logo" style={{ width: '60px' }} />
-            </div>
-            <p style={{ fontSize: '14px', marginTop: '10px' }}>Certified Quality</p>
-          </div>
+    {/* Certifications (This content will drop to a new line if there isn't enough space) */}
+    <div style={{ 
+        textAlign: 'center',
+        // Optional: Ensure this certification box doesn't take up too much width on desktop
+        maxWidth: '250px', 
+    }}>
+        <h3 style={{ color: 'var(--color-light-text)', fontWeight: 'normal' }}>Why Choose Transparency?</h3>
+        <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '15px' }}>
+            <img src="/images/cert1.jfif" alt="Certified Logo" style={{ width: '60px' }} />
+            <img src="/images/cert2.jfif" alt="Fair Trade Logo" style={{ width: '60px' }} />
+        </div>
+        <p style={{ fontSize: '14px', marginTop: '10px' }}>Certified Quality</p>
+    </div>
 
-        </motion.div>
-        
+</motion.div>
         {/* 3. PRODUCT SHOWCASE (Scroll Animation) */}
         <motion.section {...scrollAnimateProps} style={{ paddingBottom: '30px' }}>
             <h2 className="section-title">Product Showcase</h2>
@@ -185,23 +219,31 @@ const Home = () => {
             <h2 className="section-title">Trusted By Our Community</h2>
            {/* /* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '30px 0', marginBottom: '80px', borderTop: '1px solid #eee' }}>*/ }
             <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center', 
-                padding: '30px 0', 
-                marginBottom: '20px', // <-- REDUCED FROM 80px TO 20px
-                borderTop: '1px solid #eee' 
+                 display: 'flex', 
+    justifyContent: 'center', /* **🔥 FIX 1: Center the items horizontally** */
+    alignItems: 'center',       /* **🔥 FIX 2: Center the items vertically** */
+    flexDirection: windowWidth < 768 ? 'column' : 'row', 
+    gap: windowWidth < 768 ? '30px' : '20px', 
+    padding: '30px 0', 
+    marginBottom: '20px', 
+    borderTop: '1px solid #eee'
             }}>
             {/* 💥 TESTIMONIAL SLIDER IMPLEMENTATION 💥 */}
-            <div style={{  lineHeight: '1.4', position: 'relative',  width:'700px'}}>
+            <div className="testimonial-quote-box"style={{  lineHeight: '1.4', padding: '80px',//position: 'relative',// 🛑 FIX 1: Make width responsive
+   // width: windowWidth < 768 ? '100%' : '50%', 
+   width: windowWidth < 768 ? '100%' : '50%',
+   maxWidth: '400px', /* Give it a reasonable maximum width */ 
+   textAlign: windowWidth < 768 ? 'center' : 'left',
+    // 🛑 FIX 2: Set a MIN-HEIGHT to reserve space for the text on mobile
+    minHeight: windowWidth < 768 ? '200px' : 'auto',}}> 
                 <AnimatePresence mode="wait">
                     <motion.div
-                        key={testimonial.id} // Key is essential for AnimatePresence to track changes
+                        key={testimonial.id} // Key is essential for AnimatePresence to track changes 
                         initial={{ opacity: 0, x: 20 }} // Start slightly to the right
                         animate={{ opacity: 1, x: 0 }} // Slide to the center
                         exit={{ opacity: 0, x: -20 }} // Slide out to the left
                         transition={{ duration: 0.5 }}
-                        style={{ position: 'absolute', width: '100%' }}
+                        //style={{ position: 'absolute', width: '100%' }}
                     >
                         <p style={{ fontSize: '20px', fontStyle: 'italic', margin: 0 }}>
                             "{testimonial.quote}"
@@ -214,13 +256,32 @@ const Home = () => {
             </div>
             
             {/* Blog Links (Keep as is) */}
-            <div style={{ display: 'flex', gap: '20px' }}>
+            <div className="blog-links-grid"style={{ display: 'flex', gap: '20px' ,
+            justifyContent: 'center',
+              // 🔥 FIX 5: Stack blog images on smaller screens
+                flexDirection: windowWidth < 500 ? 'column' : 'row',
+                alignItems: windowWidth < 500 ? 'center' : 'flex-start',
+            }}  >
                 <Link to="/blog/recipe" style={{ textDecoration: 'none', color: 'var(--color-text)' }}>
-                    <img src="/images/blog1.jfif" alt="Recipe" style={{ width: '200px', height: '150px', objectFit: 'cover' }} />
+                    <img src="/images/blog1.jfif" alt="Recipe"style={{ 
+                width: '200px', 
+                height: '250px', // INCREASED HEIGHT for a better aspect ratio (e.g., 200x250 portrait)
+                objectFit: 'cover',
+                marginBottom: '10px', // Add space between image and caption
+                borderRadius: '5px',
+                display: 'block', // Optional: adds a nice touch
+            }} />
                     <p>5 Minute Organic Lunch Ideas</p>
                 </Link>
                 <Link to="/blog/gardening" style={{ textDecoration: 'none', color: 'var(--color-text)' }}>
-                    <img src="/images/blog2.jfif" alt="Gardening" style={{ width: '200px', height: '150px', objectFit: 'cover' }} />
+                    <img src="/images/blog2.jfif" alt="Gardening" style={{ 
+                width: '200px', 
+                height: '250px', // Must match the first image's height
+                objectFit: 'cover',
+                marginBottom: '10px', // Must match the first image's spacing
+                borderRadius: '5px',
+                display: 'block', // Optional: adds a nice touch
+            }} />
                     <p>Gardening Tips for Beginners</p>
                 </Link>
             </div>

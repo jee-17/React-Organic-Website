@@ -1,10 +1,25 @@
 // src/components/Header.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../App.css'; 
+// NOTE: I recommend creating a separate Header.css file for cleaner styling
+// import './Header.css'; 
 
 const Header = () => {
+  // State to manage the visibility of the mobile menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Function to toggle the menu state
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Function to close the menu after a link is clicked (optional but good for UX)
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <motion.header 
       className="header-bar"
@@ -12,28 +27,37 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="content-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 0' }}>
+      <div className="content-wrapper">
         
         {/* Logo/Home Link */}
         <div className="logo">
-          <Link to="/" style={{ textDecoration: 'none', fontSize: '24px', fontWeight: 'bold', color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
+          {/* Note: In a real app, external styles should be moved to CSS for best practice */}
+          <Link to="/" onClick={closeMenu}>
             Harvest Moon Organics
           </Link>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="nav-links">
-          <Link to="/shop" style={{ margin: '0 15px' }}>Shop</Link>
-          <Link to="/story" style={{ margin: '0 15px' }}>Our Story</Link>
-          <Link to="/certifications" style={{ margin: '0 15px' }}>Certifications</Link>
-          <Link to="/blog" style={{ margin: '0 15px' }}>Blog</Link>
-          <Link to="/contact" style={{ margin: '0 15px' }}>Contact</Link>
+        {/* 🍔 Mobile Menu Toggle Button (Visible only on small screens via CSS) */}
+        <div className="menu-toggle" onClick={toggleMenu}>
+          {/* You can use an icon library here, but a simple div works with CSS too */}
+          {isMenuOpen ? '✕' : '☰'} 
+        </div>
+
+        {/* Navigation Links (Conditionally rendered/styled based on isMenuOpen and CSS) */}
+        {/* The 'nav-links' class now handles the responsiveness in CSS */}
+        <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+          <Link to="/shop" onClick={closeMenu}>Shop</Link>
+          <Link to="/story" onClick={closeMenu}>Our Story</Link>
+          <Link to="/certifications" onClick={closeMenu}>Certifications</Link>
+          <Link to="/blog" onClick={closeMenu}>Blog</Link>
+          <Link to="/contact" onClick={closeMenu}>Contact</Link>
+          <Link to="/account" onClick={closeMenu}>My Account</Link>
         </nav>
 
-        {/* User Actions */}
+        {/* User Actions (The CSS will ensure this stays visible/repositioned) */}
         <div className="user-actions">
-          <Link to="/account">My Account</Link>
-          <span className="cart-icon" style={{ marginLeft: '20px', fontSize: '20px' }}>🛒</span> 
+          <Link to="/account" onClick={closeMenu}>My Account</Link>
+          <span className="cart-icon">🛒</span> 
         </div>
       </div>
     </motion.header>

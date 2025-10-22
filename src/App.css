@@ -1,5 +1,7 @@
 /* src/App.css */
 /* Global Styles & Typography */
+/*header style from 190*/
+/*footer style from 360*/
 :root {
   --color-primary: #5c8330; /* Organic Green */
   --color-secondary: #f0f0f0; /* Light Gray for backgrounds */
@@ -84,4 +86,436 @@ body {
 
 .product-card:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
+}
+
+/* ---------------- MOBILE PRODUCT GRID FIX (REVISED) ---------------- */
+/* This style applies to ALL screens unless overridden by a media query */
+.product-grid {
+    display: grid;
+    /* This defines the DESKTOP layout: One wide column for 'Our Story' (1.2fr) 
+       and four equal columns for the four featured products (repeat(4, 1fr)) */
+    grid-template-columns: 1.2fr repeat(4, 1fr); 
+    gap: 20px;
+    margin: 40px auto; /* Center the grid container */
+    padding: 0 5%; /* Add some horizontal padding for large screens */
+}
+/* Target devices up to 768px (Tablets in Portrait & Landscape) */
+@media (max-width: 768px) {
+    .product-grid {
+        /* FIX: Switches to 2 columns on tablet/mobile */
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 20px !important;
+        padding: 0 15px; /* Added padding to prevent touching edges */
+    }
+
+    @media (max-width: 480px) {
+        .product-grid {
+            /* FIX: Switches to 1 column on small phones */
+            grid-template-columns: 1fr !important; 
+            gap: 30px !important;
+        }
+    }
+    /* Product Card Styling Adjustments */
+    .product-card {
+        padding: 0; /* Remove padding as 'gap' handles spacing now */
+        text-align: center;
+        background: transparent;
+        border: none;
+    }
+
+    /* Product Image Styling */
+    .product-card img {
+        /* The images in your product showcase were NOT circular.
+           If you want them to remain circular like the category items: */
+        width: 100px; 
+        height: 100px;
+        border-radius: 50%;
+        /* If you want them to match the image: Remove border-radius: 50%; */
+        object-fit: cover;
+        margin: 0 auto 10px auto;
+        display: block;
+    }
+
+    /* Button Fix for better Mobile Tap Target */
+    .product-card .primary-button {
+        font-size: 13px;
+        padding: 10px 15px; /* Increase vertical padding for easier tapping */
+        width: 100%; /* Ensure button fills the card width */
+        margin-top: 10px; /* Space above the button */
+    }
+
+    /* Remove !important from typography unless absolutely required */
+    .product-card h4 {
+        font-size: 14px;
+        margin: 0 0 5px 0;
+    }
+
+    .product-card p {
+        font-size: 13px;
+        margin-bottom: 5px; /* Adjust spacing below price */
+        color: var(--color-primary);
+    }
+}
+/* blog css for both desktop and mobile */
+/* ---------------- BLOG LINKS GRID FIX ---------------- */
+
+.blog-links-grid {
+    /* Default: Desktop layout (adjusts to content flow, or force 2 columns if needed) */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns for desktop and tablet */
+    gap: 20px;
+    width: 100%; /* Ensure it uses the full space of the parent container */
+}
+
+@media (max-width: 480px) {
+    .blog-links-grid {
+        /* Mobile override: Switch to a single column to prevent horizontal scroll */
+        grid-template-columns: 1fr;
+    }
+    .blog-links-grid img {
+    width: 100% ; /* Image fills its container column */
+    height: auto !important; /* Allow height to adjust naturally, avoid fixed 150px if possible */
+}
+}
+
+/* Ensure the Link containers inside the grid don't have conflicting styles */
+.blog-links-grid a {
+    display: block; /* Makes sure the whole link block is clickable */
+}
+
+/* Optional: Clean up the image width inside the link for mobile */
+.blog-links-grid img {
+    width: 100% ; /* Image fills its container column */
+    height: auto !important; /* Allow height to adjust naturally, avoid fixed 150px if possible */
+}
+
+/*header style*/
+/* Basic Header Container Styles */
+.header-bar {
+    background-color: white; /* Example background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: sticky; /* Keep the header at the top */
+    top: 0;
+    z-index: 1000;
+}
+
+/* Wrapper to contain content and center it */
+.content-wrapper {
+    /* max-width: 1200px; Max width for the content */
+    margin: 0 auto; /* Center the wrapper */
+    /* padding: 15px 20px; Add horizontal padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; 
+        /* Ensure no fixed width is set */
+        width: auto;
+}
+
+/* Logo Styling */
+.logo a {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-primary, #4CAF50); /* Use CSS variables if defined, otherwise a fallback */
+    font-family: var(--font-serif, 'Georgia', serif);
+}
+
+/* Navigation Links - Desktop Layout */
+.nav-links a {
+    text-decoration: none;
+    color: var(--color-text, #333);
+    margin: 0 15px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--color-primary, #4CAF50);
+}
+
+/* User Actions */
+.user-actions a {
+    text-decoration: none;
+    color: var(--color-text, #333);
+}
+
+.cart-icon {
+    margin-left: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Hide the toggle button by default (Desktop) */
+.menu-toggle {
+    display: none; 
+    cursor: pointer;
+    font-size: 24px;
+}
+/* -------------------------------------- */
+/* Mobile Responsiveness */
+/* -------------------------------------- */
+@media (max-width: 768px) {
+    
+    /* Show the hamburger menu toggle */
+    .menu-toggle {
+        display: block;
+        order: 2; /* Position it next to the logo or wherever you like */
+        margin-left: 20px;
+    }
+
+    /* Adjust the content wrapper for mobile layout */
+    .content-wrapper {
+        padding: 10px 15px; /* Less padding on small screens */
+        /* You might want to remove the space-between and let the logo, toggle, and cart manage their space */
+        justify-content: space-between;
+    }
+    /* Styles for the header wrapper */
+.header-bar .content-wrapper {
+    /* Use padding only, not fixed margins that could be added to the total width */
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    /* CRITICAL: Ensures padding is inside the width calculation */
+    box-sizing: border-box; 
+    
+    /* Ensure the wrapper never exceeds the viewport */
+    min-width: 0; 
+}
+
+/* Optional: Make the navigation links take up less space */
+.header-bar .nav-links {
+    /* Allow the navigation to shrink when the screen gets smaller */
+    flex-shrink: 1;
+    /* Reduce the gap between links on smaller screens (e.g., tablet view) */
+    gap: 10px; /* Use gap if not already */
+}
+
+    /* Navigation Links - Mobile Layout */
+    .nav-links {
+        /* Hide the navigation by default on small screens */
+        display: none; 
+        
+        /* When open, display it as a full-width column */
+        position: absolute;
+        top: 60px; /* Height of your header */
+        left: 0;
+        width: 100%;
+        background-color: white; /* Background for the mobile menu */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        padding: 10px 0;
+        z-index: 999; /* Below the header-bar, but above other content */
+    }
+ 
+
+    /* Style the links inside the mobile menu */
+    .nav-links a {
+        padding: 15px 20px;
+        margin: 0;
+        width: 100%;
+        border-bottom: 1px solid #eee; /* Separator line */
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+
+    /* Class added by React when the menu state is 'open' */
+    .nav-links.open {
+        display: flex; /* Show the menu */
+         width: 80vw; /* Use 80% of the viewport width */
+        max-width: 350px; /* Don't let it get too wide on tablets */
+         box-sizing: border-box; 
+        
+        /* 🔥 Crucial: If the menu is set to absolute/fixed, ensure its right edge is constrained */
+        right: auto; /* Ensure it's not trying to position relative to the right edge incorrectly */
+        left: 0; 
+    }
+
+    /* User Actions - Reposition or simplify for mobile */
+    .user-actions {
+        order: 3; /* Move actions to the right */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Hide the 'My Account' text link on very small screens to save space */
+    .user-actions a {
+        display: none;  
+       /* display: inline-block; /* Ensure it's shown, but may cause wrapping 
+        margin-right: 10px;    /* Give it a little space 
+        font-size: 14px;*/
+    }
+}
+
+/* Optional: Even smaller screen adjustment for "My Account" */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Show 'My Account' on slightly larger mobile/tablet screens */
+    .user-actions a {
+        display: block;
+        font-size: 14px;
+    }
+}
+
+/*footer responsive */
+/* ========================================================= */
+/* Footer Styles (Desktop Base) */
+/* ========================================================= */
+
+.app-footer {
+    background-color: #f8f8f8;
+    padding: 60px 0;
+    border-top: 1px solid #eee;
+    font-family: Arial, sans-serif; /* Example font */
+}
+
+/* Ensure content-wrapper is used for width and centering */
+.content-wrapper-footer {
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; /* Add horizontal padding for edges */
+}
+
+/* Footer Grid - Desktop 4-column layout */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+}
+
+.footer-heading {
+    color: var(--color-text, #333); 
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.footer-link {
+    display: block;
+    text-decoration: none;
+    color: var(--color-light-text, #666);
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--color-primary, #4CAF50);
+}
+
+/* Newsletter styles */
+.newsletter-text {
+    color: var(--color-light-text, #666);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.newsletter-input-group {
+    display: flex;
+    margin-top: 10px;
+}
+
+.newsletter-input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    flex-grow: 1;
+    border-radius: 4px 0 0 4px; /* Rounded left corners */
+    min-width: 0; /* Important for flex layout */
+}
+
+.newsletter-button {
+    padding: 8px 15px;
+    /* Assuming primary-button has colors defined elsewhere */
+    border-radius: 0 4px 4px 0; /* Rounded right corners */
+    /* Adjusting button margin for flush look */
+    margin-left: -1px; 
+}
+
+
+/* Social Icons */
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.social-icon {
+    color: var(--color-primary, #4CAF50);
+    font-size: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icon:first-child {
+    margin-left: 0;
+}
+
+.social-icon:hover {
+    color: var(--color-secondary, #388E3C); /* Darker green on hover */
+    transform: translateY(-2px);
+}
+
+.phone-icon {
+    font-size: 16px; /* Smaller size for the phone icon */
+}
+
+.copyright-text {
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-light-text, #999);
+}
+
+
+/* ========================================================= */
+/* Media Queries for Mobile Responsiveness */
+/* ========================================================= */
+
+/* Tablet and Smaller Desktop (e.g., 992px wide) - Collapse to 2 columns */
+@media (max-width: 992px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Add some extra margin to separate the stacked columns */
+    .footer-column {
+        /* margin-bottom: 20px; */
+        text-align: center;
+    }
+}
+
+/* Mobile Devices (e.g., 768px wide and below) - Collapse to 1 column */
+@media (max-width: 768px) {
+    .app-footer {
+        padding: 40px 0;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr; /* Single column layout */
+        gap: 30px;
+        padding-bottom: 30px;
+    }
+    
+    /* Center the Newsletter content on mobile if desired */
+    .newsletter-column {
+        text-align: center;
+    }
+
+    .newsletter-input-group {
+        justify-content: center;
+        max-width: 300px; /* Constrain width of input on mobile */
+        margin: 10px auto;
+    }
+
+    .social-icons {
+        justify-content: center; /* Center the social icons */
+    }
+    
+    .copyright-text {
+        padding: 0 10px;
+    }
 }
