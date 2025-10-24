@@ -19,7 +19,7 @@ const Certifications = () => {
   };
 
   return (
-    <div className="page-container content-wrapper">
+    <div className="page-container content-wrapper-certifications">
       <h1 className="section-title" style={{ marginTop: '0' }}>Our Quality & Certifications</h1>
       <p style={{ textAlign: 'center', marginBottom: '60px', color: 'var(--color-light-text)' }}>
         Your health and the planet's health are our top priorities. Here is our commitment to transparency.

@@ -12,7 +12,7 @@ const articles = [
 
 const Blog = () => {
   return (
-    <div className="page-container content-wrapper">
+    <div className="page-container content-wrapper-blog">
       <h1 className="section-title" style={{ marginTop: '0' }}>Health & Recipes Blog</h1>
       <p style={{ textAlign: 'center', marginBottom: '60px', color: 'var(--color-light-text)' }}>
         Nourish your mind and body with tips, recipes, and sustainability insights.

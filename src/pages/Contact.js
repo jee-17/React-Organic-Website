@@ -15,7 +15,7 @@ const Contact = () => {
     };
 
     return (
-        <div className="page-container content-wrapper">
+        <div className="page-container content-wrapper-contact">
             <h1 className="section-title" style={{ marginTop: '0' }}>Get in Touch</h1>
             <p style={{ textAlign: 'center', color: 'var(--color-light-text)', marginBottom: '40px' }}>
                 We'd love to hear from you. Whether it's a question about our products, an order, or a partnership inquiry, our team is ready to help.

@@ -23,7 +23,7 @@ const OurStory = () => {
 
 
   return (
-    <div className="page-container content-wrapper">
+    <div className="page-container content-wrapper-story">
       <h1 className="section-title" style={{ marginTop: '0' }}>Our Commitment to the Earth</h1>
       
       <motion.div 
